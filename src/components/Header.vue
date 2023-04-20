@@ -124,7 +124,7 @@
             <div class="px-4 py-1">
               <v-divider />
               <p class="mb-0 font_14 mt-3 pl-2">
-                © {{ year }} Powered by konapp.asia
+                © {{ year }} Powered by BanhJi
               </p>
               <!--                            <p class="line_14 font_10 mb-3 pl-2">{{ $t("banhji_term") }}</p>-->
             </div>

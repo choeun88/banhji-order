@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <v-row color="white" class="my_row">
-      <v-col sm="12" md="6" cols="12" class="screen_small pr-0">
+    <v-row  color="white" class="my_row">
+      <v-col style="margin: 0 auto;" sm="12" md="6" cols="12" class="screen_small pr-0">
         <v-card
             color="white"
             class="pa-10 rounded-0 no_border wrapper_form"
@@ -58,8 +58,9 @@
   </v-container>
 </template>
 <script>
-const cookieJS = require("@/cookie.js");
+// const cookieJS = require("@/cookie.js");
 import jwt from "jsonwebtoken";
+const commerceHandler = require("@/scripts/commerce/handler/commerceHandler")
 export default {
   data: () => ({
     year: new Date().getFullYear(),
@@ -75,28 +76,56 @@ export default {
 			cname + "=" + cvalue + ";" + expires + ";domain=" + domain + ";path=/";
 		},
     async Login() {
-      const login = cookieJS.login(this.username, this.pwd);
-      if(login){
-        const data = {
-          token: new Date().getTime()
-        };
-        let tokenName= "nlf-token" + process.env.VUE_APP_MODE
-        let token = jwt.sign(data, process.env.VUE_APP_JWT_SESCRET, {
-          expiresIn: 86400,
-        });
-        await this.setCookie(
-          tokenName,
-          token,
-          9999,
-          ''
-        );
-        this.$snotify.success('Success full')
-        window.location.reload()
-      }else{
-        // this.username = ''
-        // this.pwd = ''
-        alert('Username & Password incorrect')
+      // const login = cookieJS.login(this.username, this.pwd);
+      let d = {
+        username: this.username,
+        password: this.pwd
       }
+      await commerceHandler.storeLogin(d).then(res=>{
+        window.console.log(res, 'res back from login')
+        if(res.data.data.status){
+          const data = {
+            token: res.data.data.token
+          };
+          let tokenName= "banhji-order-token" + process.env.VUE_APP_MODE
+          let token = jwt.sign(data, process.env.VUE_APP_JWT_SESCRET, {
+            expiresIn: 86400,
+          });
+          this.setCookie(
+            tokenName,
+            token,
+            9999,
+            ''
+          );
+          this.$snotify.success('Success full')
+          window.location.reload()
+        }else{
+          // this.username = ''
+          // this.pwd = ''
+          alert('Username & Password incorrect')
+        }
+      })
+      // if(login){
+      //   const data = {
+      //     token: new Date().getTime()
+      //   };
+      //   let tokenName= "nlf-token" + process.env.VUE_APP_MODE
+      //   let token = jwt.sign(data, process.env.VUE_APP_JWT_SESCRET, {
+      //     expiresIn: 86400,
+      //   });
+      //   await this.setCookie(
+      //     tokenName,
+      //     token,
+      //     9999,
+      //     ''
+      //   );
+      //   this.$snotify.success('Success full')
+      //   window.location.reload()
+      // }else{
+      //   // this.username = ''
+      //   // this.pwd = ''
+      //   alert('Username & Password incorrect')
+      // }
     },
   },
 };
