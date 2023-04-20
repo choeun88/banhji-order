@@ -1,0 +1,287 @@
+@font-face {
+  font-family: 'banhji-accounting-icon';
+  src:  url('fonts/banhji-accounting-icon.eot?dmbuay');
+  src:  url('fonts/banhji-accounting-icon.eot?dmbuay#iefix') format('embedded-opentype'),
+    url('fonts/banhji-accounting-icon.ttf?dmbuay') format('truetype'),
+    url('fonts/banhji-accounting-icon.woff?dmbuay') format('woff'),
+    url('fonts/banhji-accounting-icon.svg?dmbuay#banhji-accounting-icon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="b-"], [class*=" b-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'banhji-accounting-icon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.b-overview-61:before {
+  content: "\e93d";
+  color: #474747;
+}
+.b-sestion-57:before {
+  content: "\e93e";
+  color: #474747;
+}
+.b-sestion-58:before {
+  content: "\e93f";
+  color: #474747;
+}
+.b-warehouses:before {
+  content: "\e940";
+  color: #474747;
+}
+.b-add:before {
+  content: "\e900";
+  color: #474747;
+}
+.b-full:before {
+  content: "\e901";
+  color: #474747;
+}
+.b-chat:before {
+  content: "\e902";
+  color: #474747;
+}
+.b-close:before {
+  content: "\e903";
+  color: #474747;
+}
+.b-logout:before {
+  content: "\e904";
+  color: #474747;
+}
+.b-search:before {
+  content: "\e905";
+  color: #474747;
+}
+.b-mini:before {
+  content: "\e906";
+  color: #474747;
+}
+.b-management:before {
+  content: "\e907";
+  color: #474747;
+}
+.b-segment:before {
+  content: "\e908";
+  color: #474747;
+}
+.b-recivable:before {
+  content: "\e909";
+  color: #474747;
+}
+.b-payable:before {
+  content: "\e90a";
+  color: #474747;
+}
+.b-payroll:before {
+  content: "\e90b";
+  color: #474747;
+}
+.b-accounting:before {
+  content: "\e90c";
+  color: #474747;
+}
+.b-cash:before {
+  content: "\e90d";
+  color: #474747;
+}
+.b-banking:before {
+  content: "\e90e";
+  color: #474747;
+}
+.b-billing:before {
+  content: "\e90f";
+  color: #474747;
+}
+.b-budget:before {
+  content: "\e910";
+  color: #474747;
+}
+.b-commerce:before {
+  content: "\e911";
+  color: #474747;
+}
+.b-compliance:before {
+  content: "\e912";
+  color: #474747;
+}
+.b-cooperative:before {
+  content: "\e913";
+  color: #474747;
+}
+.b-dimensions:before {
+  content: "\e914";
+  color: #474747;
+}
+.b-e_commerce:before {
+  content: "\e915";
+  color: #474747;
+}
+.b-financing:before {
+  content: "\e916";
+  color: #474747;
+}
+.b-fund_acc:before {
+  content: "\e917";
+  color: #474747;
+}
+.b-funding:before {
+  content: "\e918";
+  color: #474747;
+}
+.b-general_ledger:before {
+  content: "\e919";
+  color: #474747;
+}
+.b-insurance:before {
+  content: "\e91a";
+  color: #474747;
+}
+.b-loyalty:before {
+  content: "\e91b";
+  color: #474747;
+}
+.b-modul:before {
+  content: "\e91c";
+  color: #474747;
+}
+.b-multiple:before {
+  content: "\e91d";
+  color: #474747;
+}
+.b-overview:before {
+  content: "\e91e";
+  color: #474747;
+}
+.b-payment:before {
+  content: "\e91f";
+  color: #474747;
+}
+.b-pricing:before {
+  content: "\e921";
+  color: #474747;
+}
+.b-product:before {
+  content: "\e922";
+  color: #474747;
+}
+.b-ratio:before {
+  content: "\e923";
+  color: #474747;
+}
+.b-report:before {
+  content: "\e924";
+  color: #474747;
+}
+.b-invoice_s:before {
+  content: "\e930";
+  color: #474747;
+}
+.b-sale_channel:before {
+  content: "\e926";
+  color: #474747;
+}
+.b-service:before {
+  content: "\e927";
+  color: #474747;
+}
+.b-specific:before {
+  content: "\e928";
+  color: #474747;
+}
+.b-statistics:before {
+  content: "\e929";
+  color: #474747;
+}
+.b-structures:before {
+  content: "\e92a";
+  color: #474747;
+}
+.b-transation:before {
+  content: "\e92b";
+  color: #474747;
+}
+.b-reward:before {
+  content: "\e920";
+  color: #474747;
+}
+.b-pos:before {
+  content: "\e925";
+  color: #474747;
+}
+.b-favorite:before {
+  content: "\e92c";
+  color: #474747;
+}
+.b-catagories:before {
+  content: "\e92d";
+  color: #474747;
+}
+.b-refresh:before {
+  content: "\e92e";
+  color: #474747;
+}
+.b-franchise:before {
+  content: "\e92f";
+  color: #474747;
+}
+.b-delivery_s:before {
+  content: "\e931";
+  color: #474747;
+}
+.b-note_s:before {
+  content: "\e932";
+  color: #474747;
+}
+.b-order_type:before {
+  content: "\e933";
+  color: #474747;
+}
+.b-parksale:before {
+  content: "\e934";
+  color: #474747;
+}
+.b-count_guest:before {
+  content: "\e935";
+  color: #474747;
+}
+.b-promotion:before {
+  content: "\e936";
+  color: #474747;
+}
+.b-reward_s:before {
+  content: "\e937";
+  color: #474747;
+}
+.b-offline_online:before {
+  content: "\e938";
+  color: #474747;
+}
+.b-sestion:before {
+  content: "\e939";
+  color: #474747;
+}
+.b-default_image:before {
+  content: "\e93c";
+  color: #474747;
+}
+.b-setting:before {
+  content: "\e93a";
+  color: #474747;
+}
+.b-resources:before {
+  content: "\e93b";
+  color: #474747;
+}
