@@ -20,7 +20,7 @@
             <a href="/" class="main_logo d-flex pl-6 py-3">
               <div class="mb-0">
                 <img
-                  src="../assets/images/nlflogo.png"
+                  src="../assets/images/benchlogo.jpg"
                   height="42"
                   alt="New Life Felloship Logo"
                 />
@@ -254,8 +254,8 @@ export default {
         id: 1,
         class: "",
         activeClass: "active",
-        name: "home",
-        menuTex: "home",
+        name: "operation",
+        menuTex: "operation",
         path: "/en",
         icon: "",
       },
@@ -263,36 +263,9 @@ export default {
         id: 2,
         class: "",
         activeClass: "",
-        name: "offering",
-        menuTex: "offering",
-        path: "/offering",
-        icon: "",
-      },
-      {
-        id: 3,
-        class: "",
-        activeClass: "",
-        name: "resources",
-        menuTex: "resources",
-        path: "/resources",
-        icon: "",
-      },
-      {
-        id: 4,
-        class: "",
-        activeClass: "",
-        name: "locations",
-        menuTex: "locations",
-        path: "/locations",
-        icon: "",
-      },
-      {
-        id: 5,
-        class: "",
-        activeClass: "",
-        name: "more",
-        menuTex: "more",
-        path: "/more",
+        name: "product",
+        menuTex: "products",
+        path: "/products",
         icon: "",
       },
       { id: 31, class: "mx-3 my-1 v-divider side_devider", icon: "" },
@@ -333,15 +306,7 @@ export default {
       //   path: "/franchise",
       //   icon: "b-franchise",
       // },
-      {
-        id: 13,
-        class: "text-green sidebar_regular",
-        activeClass: "",
-        name: "members",
-        menuTex: "members",
-        path: "/members",
-        icon: "b-pos",
-      },
+      
       // {
       //   id: 14,
       //   class: "text-green sidebar_regular",
@@ -384,8 +349,8 @@ export default {
     },
     goConnect() {
       //
-      let name = 'nlf-token' + process.env.VUE_APP_MODE
-      window.console.log(name, 'nanna')
+      let name = 'banhji-order-token' + process.env.VUE_APP_MODE
+      // window.console.log(name, 'nanna')
       document.cookie = name+'=; Max-Age=-99999999;';
       window.location.reload();
     },

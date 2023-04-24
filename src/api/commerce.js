@@ -51,5 +51,5 @@ module.exports = {
     cashCountCreate                             : url + 'cashcount/' + instituteId + '/add',
     frontDisplay                                : url + 'frontdisplay/' + instituteId + '/add',
     keyGet                                      : url + 'key/' + instituteId + '/get',
-    storeLogin                                  : url + 'store/' + instituteId + '/login',
+    storeLogin                                  : url + 'store/login',
 }

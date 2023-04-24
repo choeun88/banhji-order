@@ -33,6 +33,9 @@
                 required
               />
             </v-col>
+            <v-col sm="12" md="12" style="padding: 0;max-width: 90%;text-align: left; margin-left: 30px;" cols="12" class="screen_small pr-0">
+              <v-checkbox label="Remember Me" v-model="rememberMe"></v-checkbox>
+            </v-col>
             <v-col style="padding: 0;text-align: left; margin-left: 30px;" cols="6" sm="5">
               <v-btn
                   color="primary"
@@ -62,11 +65,22 @@
 import jwt from "jsonwebtoken";
 const commerceHandler = require("@/scripts/commerce/handler/commerceHandler")
 export default {
+  name: "BanhJiOrderLogin",
   data: () => ({
     year: new Date().getFullYear(),
     username: '',
     pwd: '',
+    rememberMe: false,
   }),
+  mounted(){
+    let ruser  = localStorage.getItem('banhjiorder-remember-user')
+    if(ruser != null || ruser != ''){
+      let user = JSON.parse(ruser)
+      this.username = user.username
+      this.pwd = user.password
+      this.rememberMe = true
+    }
+  },
   methods: {
     async setCookie(cname, cvalue, exdays, domain) {
 			const d = new Date();
@@ -75,6 +89,7 @@ export default {
 			document.cookie =
 			cname + "=" + cvalue + ";" + expires + ";domain=" + domain + ";path=/";
 		},
+    
     async Login() {
       // const login = cookieJS.login(this.username, this.pwd);
       let d = {
@@ -83,9 +98,10 @@ export default {
       }
       await commerceHandler.storeLogin(d).then(res=>{
         window.console.log(res, 'res back from login')
-        if(res.data.data.status){
+        if(res.data.result.status){
           const data = {
-            token: res.data.data.token
+            store: res.data.result.store,
+            token: res.data.result.token
           };
           let tokenName= "banhji-order-token" + process.env.VUE_APP_MODE
           let token = jwt.sign(data, process.env.VUE_APP_JWT_SESCRET, {
@@ -97,6 +113,13 @@ export default {
             9999,
             ''
           );
+          if(this.rememberMe){
+            let user = {
+              username: this.username,
+              password: this.pwd
+            }
+            localStorage.setItem('banhjiorder-remember-user', JSON.stringify(user))
+          }
           this.$snotify.success('Success full')
           window.location.reload()
         }else{
@@ -105,27 +128,6 @@ export default {
           alert('Username & Password incorrect')
         }
       })
-      // if(login){
-      //   const data = {
-      //     token: new Date().getTime()
-      //   };
-      //   let tokenName= "nlf-token" + process.env.VUE_APP_MODE
-      //   let token = jwt.sign(data, process.env.VUE_APP_JWT_SESCRET, {
-      //     expiresIn: 86400,
-      //   });
-      //   await this.setCookie(
-      //     tokenName,
-      //     token,
-      //     9999,
-      //     ''
-      //   );
-      //   this.$snotify.success('Success full')
-      //   window.location.reload()
-      // }else{
-      //   // this.username = ''
-      //   // this.pwd = ''
-      //   alert('Username & Password incorrect')
-      // }
     },
   },
 };

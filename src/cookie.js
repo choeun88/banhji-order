@@ -19,11 +19,11 @@ const getCookie = (cname) => {
 
 module.exports.getCookie = () => {
   try {
-    const banhjiCookie = getCookie('nlf-token' + process.env.VUE_APP_MODE)
+    const banhjiCookie = getCookie('banhji-order-token' + process.env.VUE_APP_MODE)
     // window.console.log(process.env.VUE_APP_U, 'pro')
     if (banhjiCookie !== '') {
       const cookie = jwt.verify(banhjiCookie, process.env.VUE_APP_JWT_SESCRET)
-
+      
       /* Apply token to global axios defaults */
       const AUTH_TOKEN = cookie.accessToken
 
@@ -56,6 +56,8 @@ module.exports.getCookie = () => {
 
         return Promise.reject(error)
       })
+      cookie.instituteId = cookie.store.sk
+      // window.console.log(cookie, 'coookie')
       return cookie
     } else {
       dataStore.isValidUser = false
