@@ -43,6 +43,10 @@
                         <p>{{ deliveryAdd }}</p>
                       </v-row>
                     </v-col>
+                    <v-col v-if="isDeliveryOrder" sm="6" cols="6" class="pt-0">
+                      <label class="label">{{ $t("delivery_fee") }}</label>
+                      
+                    </v-col>
                     <v-col sm="12" cols="12" class="pt-0">
                       <template>
                         <v-simple-table class="attachment_table">
