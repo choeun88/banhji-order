@@ -79,6 +79,27 @@ const routes = [{
                     }
                 },
                 {
+                    path: 'products',
+                    name: 'Products',
+                    component: load('pos/products/Products'),
+                    meta: {
+                        mainMenu: 'products',
+                        title: i18n.t('moreportsre')
+                    }
+                },
+                {
+                    path: 'product/:id?',
+                    name: 'Product',
+                    component: load('products/Product'),
+                    props: true,
+                    meta: {
+                        moduleId: 5,
+                        code: 5.1,
+                        mainMenu: 'products',
+                        title: 'Products',
+                    }
+                },
+                {
                     path: 'reports',
                     name: 'Reports',
                     component: load('reports/Reports'),
@@ -96,8 +117,32 @@ const routes = [{
                         title: i18n.t('members')
                     }
                 },
+
             ]
-        }
+        },
+
+        {
+            path: 'store_',
+            name: 'store',
+            component: load('PosIndex'),
+            meta: {
+                product: true,
+            },
+            children:[
+                {
+                    path: 'product/:id?',
+                    name: 'Product',
+                    component: load('products/Product'),
+                    props: true,
+                    meta: {
+                        moduleId: 5,
+                        code: 5.1,
+                        mainMenu: 'products',
+                        title: 'Products',
+                    }
+                },
+            ]
+        },
     ]
 },
     {
