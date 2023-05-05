@@ -9,5 +9,6 @@ module.exports = {
     order: require("./api/order"),
     product: require("./api/product"),
     price_promotion: require("./api/price-promotion"),
-    billing: require("./api/billing")
+    billing: require("./api/billing"),
+    telegrambot: require("./api/telegrambot")
 }

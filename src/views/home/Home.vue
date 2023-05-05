@@ -21,7 +21,7 @@
                       <label class="label">{{ $t("customer_name") }}</label>
                       <p>{{ item.cusName }}</p>
                     </v-col>
-                    <v-col sm="6" cols="12" class="pb-0">
+                    <v-col style="padding-left: 0;" sm="6" cols="12" class="pb-0">
                       <label class="label">{{ $t("customer_phone") }}</label>
                       <p>{{ item.cusPhone }}</p>
                     </v-col>
@@ -29,14 +29,14 @@
                       <label class="label">{{ $t("date") }}</label>
                       <p>{{formatDateTime(item.issuedDate) }}</p>
                     </v-col>
-                    <v-col v-if="isReserveOrder" sm="6" cols="6" class="pt-0">
+                    <v-col style="padding-left: 0;" v-if="isReserveOrder" sm="6" cols="6" class="pt-0">
                       <label class="label">{{ $t("pick_up_date") }}</label>
                       <p>{{ pickUpDate }}</p>
                     </v-col>
                     <v-col v-if="isDeliveryOrder" sm="6" cols="6" class="pt-0">
                       <v-row v-if="hasMapLink">
                         <label class="label">{{ $t("google_map") }}</label><br />
-                        <a target="_blank" :href="item.mapLink">{{ $t('view_map') }}</a>
+                        <a style="width: 100%" target="_blank" :href="item.mapLink">{{ $t('view_map') }}</a>
                       </v-row>
                       <v-row v-else>
                         <label class="label">{{ $t("address") }}</label>
@@ -45,7 +45,14 @@
                     </v-col>
                     <v-col v-if="isDeliveryOrder" sm="6" cols="6" class="pt-0">
                       <label class="label">{{ $t("delivery_fee") }}</label>
-                      
+                      <v-text-field
+                        class="mt-1"
+                        outlined
+                        required
+                        placeholder=""
+                        @change="calTotal"
+                        v-model="deliveryFee"
+                      />
                     </v-col>
                     <v-col sm="12" cols="12" class="pt-0">
                       <template>
@@ -71,6 +78,22 @@
                         </v-simple-table>
                       </template>
                     </v-col>
+                    <v-col sm="3" cols="3" >
+                        <label class="label">{{ $t("sub_total") }}</label>
+                        <p style="width: 100%;">{{ numberFormat(subTotal) }}</p>
+                    </v-col>
+                    <v-col sm="3" cols="3" >
+                        <label class="label">{{ $t("delivery_fee") }}</label>
+                        <p style="width: 100%;">{{ numberFormat(deliveryFee) }}</p>
+                    </v-col>
+                    <v-col sm="3" cols="3" >
+                        <label class="label">{{ $t("discount") }}</label>
+                        <p style="width: 100%;">{{ numberFormat(item.discount) }}</p>
+                    </v-col>
+                    <v-col sm="3" cols="3" >
+                        <label class="label">{{ $t("total") }}</label>
+                        <p style="width: 100%;font-size: 20px;font-weight: bold;">{{ numberFormat(total) }}</p>
+                    </v-col>
                   </v-row>
                 </v-form>
               </v-card-text>
@@ -81,7 +104,7 @@
                       color="black"
                       outlined
                       class="text-capitalize black--text float-left"
-                      @click="dialogM3 = false"
+                      @click="cancelOrder"
                       >{{ $t("cancel") }}
                     </v-btn>
                   </v-col>
@@ -100,7 +123,7 @@
           </v-dialog>
           <v-col sm="12" cols="12" class="">
             <v-row>
-              <v-col sm="2" cols="2">
+              <!-- <v-col sm="2" cols="2">
                 Total transaction
               </v-col>
               <v-col sm="2" cols="2">
@@ -111,10 +134,23 @@
               </v-col>
               <v-col sm="2" cols="2">
                 Assign deliver
-              </v-col>
-              <v-col @click="refreshPage" sm="2" cols="2">
+              </v-col> -->
+              <v-btn
+              class="primary"
+                @click="refreshPage" 
+                prepend-icon="mdi-check-circle"
+                append-icon="mdi-account-circle"
+              >
+                <template v-slot:prepend>
+                  <v-icon color="success"></v-icon>
+                </template>
+
                 Refresh
-              </v-col>
+
+                <template v-slot:append>
+                  <v-icon color="warning"></v-icon>
+                </template>
+              </v-btn>
             </v-row>
             <v-row>
               <v-col sm="12" cols="12">
@@ -155,6 +191,13 @@
                       :headerAttributes="{ style: 'background-color: #EDF1F5' }"
                     />
                     <kendo-grid-column
+                      :field="'discount'"
+                      :title="$t('discount')"
+                      :width="50"
+                      :template="'#= discount.toFixed(2)#'"
+                      :headerAttributes="{ style: 'background-color: #EDF1F5' }"
+                    />
+                    <kendo-grid-column
                       :field="'totalAmt'"
                       :title="$t('total')"
                       :width="50"
@@ -192,10 +235,12 @@
   
   <script>
   const commerceHandler = require("@/scripts/commerce/handler/commerceHandler")
-  const cookieJS = require("@/cookie.js");
-  const { instituteId } = cookieJS.getCookie();
+  // const cookieJS = require("@/cookie.js");
+  const telegramBotHandler = require("@/scripts/commerce/handler/telegramBotHandler")
+  // const { instituteId } = cookieJS.getCookie();
   import kendo from "@progress/kendo-ui";
   const $ = kendo.jQuery;
+  import { i18n } from "@/i18n";
   export default {
     name: "Operation",
     components: {
@@ -216,10 +261,16 @@
       orderTitle: 'delivery_order',
       isDeliveryOrder: false,
       valid:true,
-      deliveryAdd: ''
+      deliveryAdd: '',
+      deliveryFee: 0,
+      subTotal: 0,
+      total: 0
     }),
     watch: {},
     methods: {
+      numberFormat(value){
+        return kendo.toString(parseFloat(value), 'n2')
+      },
       formatDateTime(value){
         return kendo.toString(new Date(value), 'yyyy-MMM-dd hh:mm tt')
       },
@@ -243,7 +294,7 @@
         let dataItem = grid.dataItem($(e.currentTarget).closest("tr"));
         dataItem.id = dataItem.pk;
         this.item = dataItem;
-        window.console.log(this.item, 'sssss')
+        let d = this.item
         this.hasMapLink = false
         this.isToday = false
         this.isReserveOrder = false
@@ -252,9 +303,9 @@
           this.isReserveOrder = true
           this.orderTitle = 'pick_up_order'
           if(this.item.pickUpFunc == 'today'){
-            this.pickUpDate = 'កាលបរិច្ឆេកមកយក: ថ្ងៃនេះ '+this.item.pickUpToday +' ទៀត'
+            this.pickUpDate = 'ថ្ងៃនេះ '+this.item.pickUpToday +' ទៀត'
           }else{
-            this.pickUpDate = 'កាលបរិច្ឆេកមកយក:' + kendo.toString(new Date(this.item.pickUpDate), 'yyyy-MMM-dd hh:mm tt')
+            this.pickUpDate = kendo.toString(new Date(this.item.pickUpDate), 'yyyy-MMM-dd hh:mm tt')
           }
         }else if(this.item.function == 'delivery order'){
           this.isDeliveryOrder = true
@@ -262,10 +313,83 @@
           if(this.item.mapLink != ''){
             this.hasMapLink = true
           }else{
-            this.deliveryAdd = '77bt'
+            let homnum = ''
+            if(d.location.homeNum != '' && d.location.homeNum != undefined){
+                homnum = 'លេខផ្ទះ៖ ' + d.location.homeNum 
+            }
+            let streetnum = ''
+            if(d.location.streetNum != '' && d.location.streetNum != undefined){
+                streetnum = '\nលេខផ្លូវ៖ ' + d.location.streetNum 
+            }
+            let ladd = ''
+            if(d.location.address != '' && d.location.address != undefined){
+                ladd = '\nអស័យដ្ឋាន៖ ' + d.location.address
+            }
+            let lnote = ''
+            if(d.location.note != '' && d.location.note != undefined){
+                lnote = '\nកំណត់បន្ថែម៖ ' + d.location.note
+            }
+            this.deliveryAdd = homnum + ',' +
+            streetnum +',' +
+            ladd + ',' +
+            lnote
+          }
+        }else if(this.item.function == 'delivery & reserve'){
+          this.orderTitle = 'delivery_reserve_order'
+          this.isDeliveryOrder = true
+          this.isReserveOrder = true
+          this.pickUpDate = kendo.toString(new Date(this.item.pickUpDate), 'yyyy-MMM-dd hh:mm tt')
+          if(this.item.mapLink != ''){
+            this.hasMapLink = true
+          }else{
+            let homnum = ''
+            if(d.location.homeNum != '' && d.location.homeNum != undefined){
+                homnum = 'លេខផ្ទះ៖ ' + d.location.homeNum 
+            }
+            let streetnum = ''
+            if(d.location.streetNum != '' && d.location.streetNum != undefined){
+                streetnum = 'លេខផ្លូវ៖ ' + d.location.streetNum 
+            }
+            let ladd = ''
+            if(d.location.address != '' && d.location.address != undefined){
+                ladd = 'អស័យដ្ឋាន៖ ' + d.location.address
+            }
+            let lnote = ''
+            if(d.location.note != '' && d.location.note != undefined){
+                lnote = 'កំណត់បន្ថែម៖ ' + d.location.note
+            }
+            this.deliveryAdd = homnum + ',' +
+            streetnum +',' +
+            ladd + ',' +
+            lnote
           }
         }
+        this.deliveryFee = 0
+        this.calTotal()
         this.dialogM3 = true
+      },
+      cancelOrder(){
+        if(confirm(i18n.t('are_you_sure_cancel_order'))){
+          this.showLoading = true
+          let data = {
+            ...this.item,
+            type: 'cancelorder',
+            isPoint: true
+          }
+          window.console.log(data)
+          delete data['prop'];
+          delete data['__ob__'];
+          telegramBotHandler.madamnomPointCreate(data).then(()=>{
+              this.showLoading = false
+              this.$snotify.success(i18n.t('successfull'))
+              this.loadOrder()
+              this.dialogM3 = false
+          })
+        }
+      },
+      calTotal(){
+        this.subTotal = parseFloat(this.item.subTotal)
+        this.total = this.subTotal - this.item.discount + parseFloat(this.deliveryFee)
       },
       loadStore(){
         this.showLoading = true
@@ -279,21 +403,38 @@
         })
       },
       approvOrder(){
-        window.console.log(this.item)
+        this.showLoading = true
+        let data = {
+          ...this.item,
+          type: 'approvorder',
+          isPoint: true,
+          deliveryFee: this.deliveryFee,
+          total: this.total
+        }
+        window.console.log(data)
+        delete data['prop'];
+        delete data['__ob__'];
+        telegramBotHandler.madamnomPointCreate(data).then(()=>{
+            this.showLoading = false
+            this.$snotify.success(i18n.t('successfull'))
+            this.loadOrder()
+            this.dialogM3 = false
+        })
       },
       async loadOrder(key){
         this.showLoading = true
         this.txns = []
-        let d = {
-            sk: instituteId,
-            pk: 'otherorder-',
-            key: key
+        let data = {
+          gsi2: 'otherorder#order',
+          key: key
         }
-        await commerceHandler.genGets(d).then(res => {
-            // window.console.log(res, 'response serving')
+        commerceHandler.getGsi2(data).then(res=>{
           let d = res.data.data.Items 
           if(d.length > 0){
             let txns = []
+            d.sort(function (a, b) {
+              return parseFloat(b.issuedDate) - parseFloat(a.issuedDate)
+            })
             d.forEach(data => {
               // this.txns.push(data)
               data.cusName = data.customer.name
@@ -302,7 +443,31 @@
             })
             this.txns = txns
           }
+          this.showLoading = false
         })
+        // let d = {
+        //     sk: instituteId,
+        //     pk: 'otherorder-',
+        //     type: 'gsi2',
+        //     key: key
+        // }
+        // await commerceHandler.genGets(d).then(res => {
+        //     // window.console.log(res, 'response serving')
+        //   let d = res.data.data.Items 
+        //   if(d.length > 0){
+        //     let txns = []
+        //     d.sort(function (a, b) {
+        //         return parseFloat(b.issuedDate) - parseFloat(a.issuedDate)
+        //     })
+        //     d.forEach(data => {
+        //       // this.txns.push(data)
+        //       data.cusName = data.customer.name
+        //       data.cusPhone = data.customer.phone
+        //       txns.push(data)
+        //     })
+        //     this.txns = txns
+        //   }
+        // })
         window.console.log(this.txns)
       },
     },
