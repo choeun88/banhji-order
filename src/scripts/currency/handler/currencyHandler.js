@@ -2,7 +2,7 @@ const baseHandler = require('@/scripts/baseHandler.js')
 const apiUrl = require('@/apiUrl')
 
 const axios = require('axios')
-const instance = axios.create();
+const instance = axios.create()
 
 // const currencyType = {
 //     FUNCTIONAL_CURRENCY: 'fun-c',
@@ -13,93 +13,98 @@ const instance = axios.create();
 
 // GET LIST
 module.exports.getAll = async () => {
-    try {
-        const response = await axios.get(apiUrl.currency.currency_get + 'fun-c');
+  try {
+    const response = await axios.get(apiUrl.currency.currency_get + 'fun-c')
 
-        return response;
+        return response
     } catch (error) {
-        window.console.error(error);
+    window.console.error(error)
     }
 }
 
 // GET JSON FILE
 module.exports.getJson = async () => {
-    try {
-        return await instance.get(apiUrl.currency.currency_json);
+  try {
+    return await instance.get(apiUrl.currency.currency_json)
     } catch (error) {
-        window.console.error(error);
+    window.console.error(error)
     }
 }
 
 // active currency or functional currency that allowed by company
 module.exports.get = async function () {
-    try {
-        return await baseHandler.get(apiUrl.currency.currency_get)
-    } catch (error) {
-        window.console.error(error)
-    }
+  try {
+    return await baseHandler.get(apiUrl.currency.currency_get)
+  } catch (error) {
+    window.console.error(error)
+  }
 }
 
 // active currency or functional currency that allowed by company
 module.exports.list = async function (type) {
-    try {
-        return await axios.get(apiUrl.currency.currency_get + type)
-    } catch (error) {
-        window.console.error(error)
-    }
+  try {
+    return await axios.get(apiUrl.currency.currency_get + type)
+  } catch (error) {
+    window.console.error(error)
+  }
 }
 
 //
 module.exports.reportingPeriod = async function (type, fy) {
-    try {
-        return await axios.get(apiUrl.currency.reporting_period_get + type + '/' + fy)
-    } catch (error) {
-        window.console.error(error)
-    }
+  try {
+    return await axios.get(apiUrl.currency.reporting_period_get + type + '/' + fy)
+  } catch (error) {
+    window.console.error(error)
+  }
 }
 
 // Create Currency
 module.exports.create = async (data) => {
-    try {
-        return await axios.post(apiUrl.currency.currency_post, data)
-    } catch (error) {
-        window.console.error(error)
-    }
+  try {
+    return await axios.post(apiUrl.currency.currency_post, data)
+  } catch (error) {
+    window.console.error(error)
+  }
 }
 // get last rate of transaction Currency
 // currency?type=txn-c&date=2021-02-25&code=KHR
-module.exports.getLastExchangeRateByDate = async (date, code='') => {
-    try {
-        let params = {
-            type: 'txn-c',
-            date: date
-        }
+module.exports.getLastExchangeRateByDate = async (date, code = '', last = '') => {
+  try {
+    let params = {
+      type: 'txn-c',
+      date: date
+    }
 
-        if(code !== ''){
-            params.code = code;
-        }
+    if (last !== '') {
+      params = {
+        type: 'txn-c',
+        last: last
+      }
+    }
+    if (code !== '') {
+      params.code = code
+    }
 
-        const response = await axios.get(apiUrl.currency.exchange_rate, {
-            params: params
-        })
-
-        return response;
+    const response = await axios.get(apiUrl.currency.exchange_rate, {
+      params: params
+    })
+    return response
     } catch (error) {
-        window.console.error(error);
+    window.console.error(error)
     }
 }
 module.exports.getLastExchangeRateTaxByDate = async (date, code) => {
-    try {
-        const response = await axios.get(apiUrl.currency.exchange_rate, {
-            params: {
-                type: 'tax-c',
-                date: date,
-                code: code,
-            }
-        })
+  try {
+    const response = await axios.get(apiUrl.currency.exchange_rate, {
+      params: {
+        type: 'tax-c',
+        date: date,
+        code: code
+      }
+    })
 
-        return response;
+    return response
     } catch (error) {
-        window.console.error(error);
+    window.console.error(error)
     }
 }
