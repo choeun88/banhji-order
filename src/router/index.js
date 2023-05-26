@@ -52,6 +52,30 @@ const routes = [{
                     }
                 },
                 {
+                    path: 'individual_customer/:id?',
+                    name: 'Individual Customer',
+                    component: () => import('../views/contacts/customer/IndividualCustomer'),
+                    props: true,
+                    meta: {
+                        mainMenu: 'receivables_revenue',
+                        miniSideBar: false,
+                        title: i18n.t('receivables_revenue')
+                    }
+                },
+                {
+                    path: 'company_customer/:id?',
+                    name: 'Company Customer',
+                    component: () => import('../views/customers/settings/CompanyCustomer'),
+                    props: true,
+                    meta: {
+                        code: 1.11,
+                        moduleId: 2,
+                        mainMenu: 'receivables_revenue',
+                        miniSideBar: false,
+                        title: i18n.t('receivables_revenue')
+                    }
+                },
+                {
                     path: 'resources',
                     name: 'Resources',
                     component: load('resource/Resources'),
@@ -76,6 +100,16 @@ const routes = [{
                     meta: {
                         mainMenu: 'more',
                         title: i18n.t('more')
+                    }
+                },
+                {
+                    path: 'customers',
+                    name: 'Customers',
+                    component: load('contacts/Customers'),
+                    // component: load('pos/products/Products'),
+                    meta: {
+                        mainMenu: 'customers',
+                        title: i18n.t('customers')
                     }
                 },
                 {
@@ -109,6 +143,17 @@ const routes = [{
                     }
                 },
                 {
+                    path: 'product_variant/:id?',
+                    name: 'Product Variant',
+                    component: load('pos/products/product/product_variants/products/ProductVariant'),
+                    props: true,
+                    meta: {
+                        moduleId: 5,
+                        mainMenu: 'products',
+                        title: 'Products',
+                    }
+                },
+                {
                     path: 'members',
                     name: 'Members',
                     component: load('members/Members'),
@@ -137,6 +182,17 @@ const routes = [{
                     meta: {
                         moduleId: 5,
                         code: 5.1,
+                        mainMenu: 'products',
+                        title: 'Products',
+                    }
+                },
+                {
+                    path: 'product_variant/:id?',
+                    name: 'Product Variant',
+                    component: load('pos/products/product/product_variants/products/ProductVariant'),
+                    props: true,
+                    meta: {
+                        moduleId: 5,
                         mainMenu: 'products',
                         title: 'Products',
                     }

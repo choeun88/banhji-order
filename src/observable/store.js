@@ -1,83 +1,111 @@
 import Vue from 'vue'
-export const data =  Vue.observable({
-    name:{
-        lastname: 'Loat',
-        firstname: 'Choeun'
-    },
-    show: false,
-    resources: '',
-    keyword:'',
-    customer_tab_main:1,
-    customer_tab_sub:0,
-    order_report_tab_main:0,
-    order_report_tab_sub:0,
-    sale_report_tab_main:0,
-    sale_report_tab_sub:0,
-    product_tab_main:0,
-    product_tab_sub:0,
-    budget_tab_main:1,
-    budget_tab_sub:0,
-    payroll_tab_main:1,
-    service_tab_main: 0,
-    accounting_tab_main: 1,
-    banking_tab_main: 1,
-    funding_tab_main: 1,
-    compliance_main_tab: 1,
-    pricing_tab_main:0,
-    pos_tab_main:0,
-    pos_tab_sub:0,
-    session_tab_main:0,
-    session_tab_sub:0,
+import FormContentModel from '@/scripts/model/FormContent'
+const formContentModel = new FormContentModel({})
+export const data = Vue.observable({
+  name: {
+    lastname: 'Chhin',
+    firstname: 'Chhai'
+  },
+  show: false,
+  resources: '',
+  keyword: '',
+  customer_tab_main: 1,
+  customer_tab_sub: 0,
+  customer_tab_sub2: 0,
+  customer_tab_setting: 0,
+  vendor_tab_main: 1,
+  vendor_tab_sub: 0,
+  vendor_tab_sub2: 0,
+  product_tab_main: 1,
+  product_tab_sub: 0,
+  bank_tab_main: 1,
+  bank_tab_sub: 0,
+  payroll_tab_main: 1,
+  payroll_tab_sub: 0,
+  service_tab_main: 1,
+  accounting_tab_main: 1,
+  funding_tab_main: 1,
+  compliance_main_tab: 1,
+  partDirectoryCustomer: 0,
+  partDirectoryVendor: 0,
+  partDirectoryPayroll: 0
 })
-export const dataStore =  Vue.observable({
-    productType: '',
-    isValidUser: true,
-    company: {},
-    businessType: 'Service',
-    publick_inv_link : '',
-    roles: [],
-    roleData: [],
-    roleType: 0
+export const dataStore = Vue.observable({
+  productType: '',
+  plansNotAccess: [],
+  isValidUser: true,
+  company: {},
+  businessType: 'Service',
+  publick_inv_link: '',
+  roles: [],
+  roleData: [],
+  roleAccount: [],
+  roleType: 0,
+  x_rate: {},
+  watch_x_rate: true,
+  user: {},
+  institute: 0,
+  formContent: formContentModel,
+  saleFormContent: {
+    accountReceivable: false,
+    saleChannel: false,
+    lateFeeOpt: false
+  },
+  standardCost: {
+    standardCost: 'auto'
+  },
+  haveAnotherDevice: false,
+  receivableBalanceRp: {},
+  payableBalanceRp: {}
 })
-export const ShowResource = (key) =>{
-    data.show = true
-    data.keyword =  key
+export const ShowResource = (key) => {
+  data.show = true
+  data.keyword = key
 }
-export const setTabActive = (main,sub) =>{
-   data.customer_tab_main = main
-   data.customer_tab_sub  = sub
+export const setTabActive = (main, sub, sub2) => {
+  data.customer_tab_main = main
+
+  if (sub === 30) {
+    data.customer_tab_setting = 4
+  } else {
+    data.customer_tab_sub = sub
+  }
+  if (sub2 !== undefined) {
+    data.customer_tab_sub2 = sub2
+  }
 }
-export const hideResource = () =>{
-    data.show = false
-    data.resources = ''
+export const hideResource = () => {
+  data.show = false
+  data.resources = ''
 }
-export const setTabActiveVendor  = (main,sub) =>{
-    data.vendor_tab_main = main
-    data.vendor_tab_sub  = sub
+export const setTabActiveVendor = (main, sub, sub2) => {
+  data.vendor_tab_main = main
+  if (sub === 10) {
+    data.partDirectoryVendor = 1
+    return
+  }
+  data.vendor_tab_sub = sub
+  if (sub2 !== undefined) {
+    data.vendor_tab_sub2 = sub2
+  }
 }
-export const setTabActiveBudget  = (main,sub) =>{
-    data.budget_tab_main = main
-    data.budget_tab_sub  = sub
- }
-export const setTabActivePricing  = (main,sub) =>{
-    data.pricing_tab_main = main
-    data.pricing_tab_sub  = sub
+export const setTabActivePayroll = (main, sub) => {
+  data.payroll_tab_main = main
+  if (sub === 10) {
+    data.partDirectoryPayroll = 1
+    return
+  }
+  data.payroll_tab_sub = sub
 }
-export const setTabOrderReport  = (main,sub) =>{
-    data.order_report_tab_main = main
-    data.order_report_tab_sub  = sub
+export const setTabActiveBank = (main, sub) => {
+  data.bank_tab_main = main
+  data.bank_tab_sub = sub
 }
-export const setTabSaleReport  = (main,sub) =>{
-    data.sale_report_tab_main = main
-    data.sale_report_tab_sub  = sub
-}
-export const setTabPos  = (main,sub) =>{
-    data.pos_tab_main = main
-    data.pos_tab_sub  = sub
-}
-export const setTabSession  = (main,sub) =>{
-    data.session_tab_main = main
-    data.session_tab_sub  = sub
+export const setPartDirectoryCustomers = (main, val) => {
+  data.customer_tab_main = main
+  data.partDirectoryCustomer = val
 }
 
-
+export const getRate = () => {
+  data.watch_x_rate = false
+}
