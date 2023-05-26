@@ -43,7 +43,7 @@
                         <p>{{ deliveryAdd }}</p>
                       </v-row>
                     </v-col>
-                    <v-col v-if="isDeliveryOrder" sm="6" cols="6" class="pt-0">
+                    <!-- <v-col v-if="isDeliveryOrder" sm="6" cols="6" class="pt-0">
                       <label class="label">{{ $t("delivery_fee") }}</label>
                       <v-text-field
                         class="mt-1"
@@ -53,7 +53,7 @@
                         @change="calTotal"
                         v-model="deliveryFee"
                       />
-                    </v-col>
+                    </v-col> -->
                     <v-col sm="12" cols="12" class="pt-0">
                       <template>
                         <v-simple-table class="attachment_table">
@@ -121,6 +121,125 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
+          <v-dialog v-model="showOrder" max-width="600px">
+            <v-card>
+              <div class="modal_header">
+                <v-card-title>{{ $t("order") }} - ({{ $t('new_order') }})</v-card-title>
+                <v-icon class="btn_close" @click="showOrder = false">close</v-icon>
+              </div>
+              <v-card-text class="modal_text_content">
+                <v-form ref="form" lazy-validation>
+                  <v-row>
+                    <v-col sm="6" cols="12" class="pb-0">
+                      <label class="label">{{ $t("customer_name") }}</label>
+                      <v-text-field
+                        class="mt-1"
+                        outlined
+                        required
+                        placeholder=""
+                        v-model="o.cusName"
+                      />
+                    </v-col>
+                    <v-col style="padding-left: 0;" sm="6" cols="12" class="pb-0">
+                      <label class="label">{{ $t("customer_phone") }}</label>
+                      <v-text-field
+                        class="mt-1"
+                        outlined
+                        required
+                        placeholder=""
+                        v-model="o.cusPhone"
+                      />
+                    </v-col>
+                    <v-col sm="6" cols="6" class="pt-0 coverdatetime">
+                      <label class="label">{{ $t("date") }}</label>
+                      <v-datetime-picker v-model="o.dateTime"></v-datetime-picker>
+                    </v-col>
+                    <v-col style="padding-left: 0;" sm="6" cols="6" class="pt-0 ">
+                      <label class="label">{{ $t("order_type") }}</label>
+                      <v-select
+                          class="mt-1"
+                          v-model="o.orderType"
+                          :items="orderTypes"
+                          item-value="id"
+                          item-text="name"
+                      />
+                    </v-col>
+                    <v-col v-if="o.orderType == 'delivery'" sm="6" cols="6" class="pt-0 ">
+                      <label class="label">{{ $t("address") }}</label>
+                      <v-text-field
+                        class="mt-1"
+                        outlined
+                        required
+                        placeholder=""
+                        v-model="o.address"
+                      />
+                    </v-col>
+                    <v-col style="padding-left: 0;" sm="6" cols="6" class="pt-0 ">
+                      <label class="label">{{ $t("sale_channel") }}</label>
+                      <v-select
+                          class="mt-1"
+                          v-model="o.saleChannel"
+                          :items="saleChannels"
+                          item-value="id"
+                          item-text="name"
+                      />
+                    </v-col>
+                    <v-col sm="12" cols="12" class="pt-0">
+                      <template>
+                        <v-simple-table class="attachment_table">
+                          <template v-slot:default>
+                            <thead>
+                              <tr>
+                                <th class="text-uppercase">{{ $t('description') }}</th>
+                                <th class="text-uppercase">{{ $t('qty') }}</th>
+                                <th class="text-uppercase">{{ $t('price') }}</th>
+                                <th class="text-uppercase">{{ $t('amount') }}</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr v-for="d in o.items" v-bind:key="d.id">
+                                <td>{{ d.name }}</td>
+                                <td>{{ d.orderamt }}</td>
+                                <td>{{ d.price }}</td>
+                                <td>{{ d.orderamt * d.price }}</td>
+                              </tr>
+                            </tbody>
+                          </template>
+                        </v-simple-table>
+                      </template>
+                    </v-col>
+                    <v-col sm="3" cols="3" >
+                        <label class="label">{{ $t("sub_total") }}</label>
+                        <p style="width: 100%;">{{ numberFormat(o.subTotal) }}</p>
+                    </v-col>
+                    <v-col sm="3" cols="3" >
+                        <label class="label">{{ $t("discount") }}</label>
+                        <p style="width: 100%;">{{ numberFormat(o.discount) }}</p>
+                    </v-col>
+                    <v-col sm="3" cols="3" >
+                        <label class="label">{{ $t("total") }}</label>
+                        <p style="width: 100%;font-size: 20px;font-weight: bold;">{{ numberFormat(o.total) }}</p>
+                    </v-col>
+                  </v-row>
+                </v-form>
+              </v-card-text>
+              <v-card-actions class="modal_footer">
+                <v-row>
+                  <v-col sm="6" cols="6" class="py-0 text-left">
+                  </v-col>
+                  <v-col sm="6" cols="6" class="py-0 text-right">
+                    <v-btn
+                      color="primary"
+                      class="px-3 white--text text-capitalize"
+                      @click="saveOrder"
+                    >
+                      {{ $t("save") }}
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
           <v-col sm="12" cols="12" class="">
             <v-row>
               <!-- <v-col sm="2" cols="2">
@@ -136,7 +255,7 @@
                 Assign deliver
               </v-col> -->
               <v-btn
-              class="primary"
+              class="secondary"
                 @click="refreshPage" 
                 prepend-icon="mdi-check-circle"
                 append-icon="mdi-account-circle"
@@ -146,6 +265,23 @@
                 </template>
 
                 Refresh
+
+                <template v-slot:append>
+                  <v-icon color="warning"></v-icon>
+                </template>
+              </v-btn>
+              <v-btn
+                style="margin-left: 10px;"
+                class="primary"
+                @click="addOrder" 
+                prepend-icon="mdi-check-circle"
+                append-icon="mdi-account-circle"
+              >
+                <template v-slot:prepend>
+                  <v-icon color="success"></v-icon>
+                </template>
+
+                Add Order
 
                 <template v-slot:append>
                   <v-icon color="warning"></v-icon>
@@ -237,7 +373,8 @@
   const commerceHandler = require("@/scripts/commerce/handler/commerceHandler")
   // const cookieJS = require("@/cookie.js");
   const telegramBotHandler = require("@/scripts/commerce/handler/telegramBotHandler")
-  // const { instituteId } = cookieJS.getCookie();
+  import OrderMedel from "@/scripts/commerce/model/Order"
+  
   import kendo from "@progress/kendo-ui";
   const $ = kendo.jQuery;
   import { i18n } from "@/i18n";
@@ -245,6 +382,7 @@
     name: "Operation",
     components: {
       LoadingMe: () => import(`@/components/Loading`),
+
     },
     data: () => ({
       isHide: false,
@@ -264,10 +402,20 @@
       deliveryAdd: '',
       deliveryFee: 0,
       subTotal: 0,
-      total: 0
+      total: 0,
+      o: new OrderMedel({}),
+      showOrder: false,
     }),
     watch: {},
     methods: {
+      //add order
+      saveOrder(){
+        window.console.log(this.o)
+      },
+      addOrder(){
+        this.o = new OrderMedel({})
+        this.showOrder = true
+      },
       numberFormat(value){
         return kendo.toString(parseFloat(value), 'n2')
       },
@@ -471,6 +619,22 @@
         window.console.log(this.txns)
       },
     },
+    computed: {
+      orderTypes(){
+        return [
+          {id: 'delivery', name: i18n.t('delivery')},
+          {id: 'pickup', name: i18n.t('pick_up')}
+        ]
+      },
+      saleChannels(){
+        return [
+          {id: 'facebook', name: 'Facebook'},
+          {id: 'telegram', name: 'Telegram'},
+          {id: 'ig', name: 'Instagram'},
+          {id: 'call', name: 'Call to store'},
+        ]
+      },
+    },
     mounted: async function (){
       await this.loadOrder({})
       await this.loadStore()
@@ -484,7 +648,10 @@
   .arr_icon {
     color: #2ca01c;
   }
-  
+  .coverdatetime .v-text-field {
+    margin-top: 0;
+    padding-top: 5px!important;
+  }
   .arr_icon1 {
     color: #4c9aff;
     color: #2ca01c;
