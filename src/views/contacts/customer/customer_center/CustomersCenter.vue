@@ -18,24 +18,25 @@
               v-bind="attrs"
               @click="rotate = !rotate"
               style="height: 47px !important"
-              class="text-bold ml-2 px-2"
+              class="text-bold ml-2 px-2 white--text"
               v-on="on"
+              to="individual_customer"
             >
               {{ $t("new") }}
-              <v-icon size="" class="my-1" :class="{ rotate_180: rotate }"
-                >expand_more</v-icon
-              >
+              <!-- <v-icon size="" class="my-1" :class="{ rotate_180: rotate }"
+                >expand_more
+              </v-icon> -->
             </v-btn>
           </template>
 
-          <v-list>
+          <!-- <v-list>
             <v-list-item to="individual_customer">
               <v-list-item-title>{{ $t("customer") }}</v-list-item-title>
             </v-list-item>
-            <!-- <v-list-item to="company_customer">
+            <v-list-item to="company_customer">
               <v-list-item-title>{{ $t("company") }}</v-list-item-title>
-            </v-list-item> -->
-          </v-list>
+            </v-list-item>
+          </v-list> -->
         </v-menu>
       </div>
       <v-card outlined dense class="pa-3 pb-0 no_border mb-md-4 mb-xs-0" color="grayBg">

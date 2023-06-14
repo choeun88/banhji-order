@@ -103,7 +103,7 @@ const routes = [{
                     }
                 },
                 {
-                    path: 'customers',
+                    path: 'contacts',
                     name: 'Customers',
                     component: load('contacts/Customers'),
                     // component: load('pos/products/Products'),
@@ -136,10 +136,21 @@ const routes = [{
                 {
                     path: 'reports',
                     name: 'Reports',
-                    component: load('reports/Reports'),
+                    component: load('pos/insight_reports/InsightReportTab'),
                     meta: {
                         mainMenu: 'reports',
                         title: i18n.t('moreportsre')
+                    }
+                },
+                {
+                    path: 'employee/:id?',
+                    name: 'Employee',
+                    component: load('payroll/employee/Employee'),
+                    props: true,
+                    meta: {
+                        mainMenu: 'employee_payroll',
+                        miniSideBar: false,
+                        title: 'Employee Payroll',
                     }
                 },
                 {

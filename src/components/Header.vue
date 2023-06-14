@@ -264,8 +264,8 @@ export default {
         class: "",
         activeClass: "",
         name: "customers",
-        menuTex: "customers",
-        path: "/customers",
+        menuTex: "contacts",
+        path: "/contacts",
         icon: "",
       },
       {

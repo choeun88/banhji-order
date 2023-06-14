@@ -11,7 +11,7 @@
                 cols="12"
                 class="tab_wrapper py-0"
               >
-                <v-tabs v-model="active_in_tabs">
+                <v-tabs>
                   <v-row>
                     <v-col sm="10" cols="10" class="py-0 pr-0" style="display: inherit">
                       <!-- <v-tab :key="0" v-if="!plansNotAccess.includes(4)">
@@ -22,6 +22,11 @@
                       <v-tab :key="1">
                         <span>
                           {{ $t("customer") }}
+                        </span>
+                      </v-tab>
+                      <v-tab :key="1">
+                        <span>
+                          {{ $t("employee") }}
                         </span>
                       </v-tab>
 
@@ -276,6 +281,14 @@
                     </v-card>
                   </v-tab-item>
 
+                  <v-tab-item>
+                    <v-card flat>
+                      <v-card-text class="">
+                        <EmployeeDirectory />
+                      </v-card-text>
+                    </v-card>
+                  </v-tab-item>
+
                   <!-- <v-tab-item>
                     <v-card flat>
                       <v-card-text class="">
@@ -326,6 +339,7 @@ export default {
   components: {
     // Insight: () => import("./Insight"),
     CustomersTab: () => import("./customer/CustomersTab"),
+    EmployeeDirectory: () => import("../operation/StaffTab"),
     // Sales: () => import("./sales/Sales"),
     // Price: () => import('./Price'),
     // ReceivablesTab: () => import("./receivables/ReceivablesTab.vue"),

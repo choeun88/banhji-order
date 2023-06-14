@@ -433,13 +433,12 @@ module.exports.keyGet = async function (data) {
         window.console.log(error)
     }
 }
-module.exports.storeLogin = async function (data) {
+module.exports.updateDb = async function (data) {
     try {
-        const response = await axios.post(apiUrl.commerce.storeLogin, data)
+        const response = await axios.post(apiUrl.commerce.updateDb, data)
 
         return response
     } catch (error) {
         window.console.log(error)
     }
 }
-
