@@ -374,7 +374,8 @@
   // const cookieJS = require("@/cookie.js");
   const telegramBotHandler = require("@/scripts/commerce/handler/telegramBotHandler")
   import OrderMedel from "@/scripts/commerce/model/Order"
-  
+  const cookieJS = require("@/cookie.js");
+  const { instituteId } = cookieJS.getCookie()  
   import kendo from "@progress/kendo-ui";
   const $ = kendo.jQuery;
   import { i18n } from "@/i18n";
@@ -382,7 +383,6 @@
     name: "Operation",
     components: {
       LoadingMe: () => import(`@/components/Loading`),
-
     },
     data: () => ({
       isHide: false,
@@ -562,12 +562,23 @@
         window.console.log(data)
         delete data['prop'];
         delete data['__ob__'];
-        telegramBotHandler.madamnomPointCreate(data).then(()=>{
-            this.showLoading = false
-            this.$snotify.success(i18n.t('successfull'))
-            this.loadOrder()
-            this.dialogM3 = false
-        })
+        if(instituteId == 'inst-81326415'){
+          //mju 168
+          telegramBotHandler.maju168PointCreate(data).then(()=>{
+              this.showLoading = false
+              this.$snotify.success(i18n.t('successfull'))
+              this.loadOrder()
+              this.dialogM3 = false
+          })
+        }else{
+          //madam nom
+          telegramBotHandler.madamnomPointCreate(data).then(()=>{
+              this.showLoading = false
+              this.$snotify.success(i18n.t('successfull'))
+              this.loadOrder()
+              this.dialogM3 = false
+          })
+        }
       },
       async loadOrder(key){
         this.showLoading = true

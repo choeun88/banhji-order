@@ -10,4 +10,5 @@ module.exports = {
     madamnomPointCreate : url + 'telegram/madamnom/post',
     asdaPointCreate : url + 'telegram/asda/post',
     klassyPointCreate : url + 'telegram/klassy/post',
+    maju168PointCreate :url + 'telegram/majuwatphnom/post',
 }

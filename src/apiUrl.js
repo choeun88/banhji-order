@@ -30,17 +30,17 @@ const prefixUrl         = `https://wcn7vpmgh3.execute-api.ap-southeast-1.amazona
 // const currencyUrl       = 'https://unkcbmfm41.execute-api.ap-southeast-1.amazonaws.com/dev/v1/currency/institute/' + instituteId
 const accPeriodUrl      = 'https://hhj7au1509.execute-api.ap-southeast-1.amazonaws.com/dev/v1/accounting-periods/'
 const wcapSettingUrl    = 'https://7m0h9en2s3.execute-api.ap-southeast-1.amazonaws.com/dev/v1/wcapsettings/'
-const products          = require("./api/product.js")
+// const products          = require("./api/product.js")
 const warehouseUrl      = require("./api/warehouse.js")
 const other             = require("./api/unknown")
-const customer          = require("./api/customer")
+// const customer          = require("./api/customer")
 const taxSetting        = require("./api/taxSetting")
 const supplier          = require("./api/supplier")
 const member            = require("./api/member")
 const loan              = require("./api/loan")
 const setting           = require("./api/setting")
 const payroll           = require("./api/payroll")
-const billing           = require("./api/billing")
+// const billing           = require("./api/billing")
 const saleQuote         = require("./api/saleQuote")
 const transaction       = require("./api/transaction")
 const bank              = require("./api/bank-payment")
@@ -49,7 +49,7 @@ const institute         = require("./api/institute")
 const currency         = require("./api/currency")
 const service           = require("./api/service")
 const compliance        = require("./api/compliance")
-const price_promotion   = require("./api/price-promotion")
+// const price_promotion   = require("./api/price-promotion")
 const item              = require("./api/item")
 const dashboard         = require("./api/dashboard")
 const financing         = require("./api/financing")
@@ -166,9 +166,9 @@ module.exports = {
 
     //warehouse
     warehouse                           : warehouseUrl,
-    product                             : products ,
+    // product                             : products ,
     other                               : other,
-    customer                            : customer,
+    // customer                            : customer,
     supplier                            : supplier,
     member                              : member,
     loan                                : loan,
@@ -182,7 +182,7 @@ module.exports = {
     payroll                             : payroll,
 
     // Billing
-    billing                             : billing,
+    // billing                             : billing,
     //quote
     saleQuote                           : saleQuote,
     //Transaction
@@ -206,7 +206,7 @@ module.exports = {
     compliance                          : compliance,
 
     //price
-    price_promotion                     : price_promotion,
+    // price_promotion                     : price_promotion,
 
     //Item
     item                                : item,
@@ -218,11 +218,11 @@ module.exports = {
     mptc                                : mptc,
 
     // commerce 
-    commerce                            : require("./api/commerce"),
+    // commerce                            : require("./api/commerce"),
     //pos
     pos                                 : require("./api/pos"),
-    loyalty                             : require("./api/loyalty"),
-    warehousev2                         : require("./api/warehousev2"),
+    // loyalty                             : require("./api/loyalty"),
+    // warehousev2                         : require("./api/warehousev2"),
     // Balance of customer and vendor 
     balance                             : balance,
 }

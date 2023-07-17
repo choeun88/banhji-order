@@ -442,3 +442,37 @@ module.exports.updateDb = async function (data) {
         window.console.log(error)
     }
 }
+module.exports.storeLogin = async function (data) {
+    try {
+        const response = await axios.post(apiUrl.commerce.storeLogin, data)
+
+        return response
+    } catch (error) {
+        window.console.log(error)
+    }
+}
+module.exports.contactPost = async function (data) {
+    try {
+        const response = await axios.post(apiUrl.commerce.contactPost, data)
+
+        return response
+    } catch (error) {
+        window.console.log(error)
+    }
+}
+module.exports.saveImage = async function (data) {
+    try {
+        const response = await axios.post(apiUrl.commerce.saveImage, data)
+        return response
+    } catch (error) {
+        window.console.log(error)
+    }
+}
+module.exports.stockPost = async function (data) {
+    try {
+        const response = await axios.post(apiUrl.commerce.stockPost, data)
+        return response
+    } catch (error) {
+        window.console.log(error)
+    }
+}

@@ -74,7 +74,7 @@ export default {
   }),
   mounted(){
     let ruser  = localStorage.getItem('banhjiorder-remember-user')
-    if(ruser != null || ruser != ''){
+    if(ruser != null && ruser != ''){
       let user = JSON.parse(ruser)
       this.username = user.username
       this.pwd = user.password

@@ -59,3 +59,11 @@ module.exports.klassyPointCreate = async function (data) {
         window.console.error(error)
     }
 }
+module.exports.maju168PointCreate = async function (data) {
+    try {
+        const response = await axios.post(apiUrl.telegrambot.maju168PointCreate, data)
+        return response
+    } catch (error) {
+        window.console.error(error)
+    }
+}
